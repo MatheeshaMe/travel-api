@@ -21,20 +21,28 @@ export const register = async (req, res, next) => {
 };
 
 export const login = async (req, res, next) => {
+  console.log("line 24");
+  console.log(req.body.name);
+  console.log(req.body.password);
   try {
     const user = await UserModel.findOne({
-      username: req.body.username,
-      //   new: true,
-    });
+      name: req.body.name,
+    }).lean();
+
+    console.log("line 30");
+
     if (!user) return next(createError(404, "user not found"));
 
+    console.log(req.body.password, user.password);
     const isPasswordCorrect = await bcrypt.compare(
       req.body.password,
       user.password
     );
-    if (!isPasswordCorrect)
+    console.log("line 37", isPasswordCorrect);
+    if (!isPasswordCorrect) {
       return next(createError(400), "Wrong password or username!");
-
+    }
+    console.log("line 41");
     const token = jwt.sign(
       {
         id: user._id,
@@ -42,13 +50,14 @@ export const login = async (req, res, next) => {
       },
       process.env.JWT
     );
-    const { password, isAdmin, ...otherdetails } = user._doc;
+    const {__v, _id, password, isAdmin, ...other } = user;
     res
       .cookie("access_token", token, {
         httpOnly: true,
       })
       .status(200)
-      .json({ details: user.name }); //{ details: { ...otherdetails }, isAdmin }
+      .json({ name: user.name, isAdmin, ...other }); //{ details: { ...otherdetails }, isAdmin }
+    next();
   } catch (error) {
     next(error);
   }
