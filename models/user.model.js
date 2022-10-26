@@ -12,19 +12,20 @@ const UserSchema = mongoose.Schema({
   },
   country: {
     type: String,
-    required: true,
+    // required: true,
     default: "Sri Lanka",
   },
   city: {
     type: String,
-    required: true,
+    // required: true,
   },
+
   img: {
     type: String,
   },
   phone: {
     type: String,
-    required: true,
+    // required: true,
   },
   password: {
     type: String,
@@ -32,6 +33,7 @@ const UserSchema = mongoose.Schema({
   },
   isAdmin: {
     type: Boolean,
+    default: false,
   },
 });
 

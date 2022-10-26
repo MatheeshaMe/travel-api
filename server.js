@@ -6,24 +6,26 @@ import cookieParser from "cookie-parser";
 
 import hotelRoute from "./routes/hotel.routes.js";
 import authRoute from "./routes/auth.routes.js";
+import userRoute from "./routes/user.routes.js";
+import testRoute from "./routes/test.routes.js";
 dotenv.config();
 const app = express();
 
 const DB_URL = process.env.MONGO_DB_URL;
+const port = process.env.PORT || 8000;
 
-const connect = () => {
-  mongoose.connect(DB_URL, () => {
-    console.log(`Mongo DB Connected 😀`);
+mongoose.connect(DB_URL, () => {
+  console.log(`Mongo DB Connected 😀`);
+  app.listen(port, () => {
+    console.log("app is running on port", port);
+    // connect();
   });
-};
+});
 
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
-
+app.use("/", testRoute);
 app.use("/api/hotels", hotelRoute);
 app.use("/api/auth", authRoute);
-app.listen(8000, () => {
-  console.log("app is running");
-  connect();
-});
+app.use("/api/users", userRoute);

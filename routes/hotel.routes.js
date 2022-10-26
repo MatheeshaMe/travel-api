@@ -2,6 +2,7 @@ import express from "express";
 import {
   createHotel,
   deleteHotel,
+  get,
   getHotelById,
   getHotels,
   updateHotel,
@@ -9,7 +10,7 @@ import {
 
 import { verifyAdmin } from "../helpers/verifyRoutesToken.js";
 const router = express.Router();
-
+// router.get("/", get);
 router.post("/", verifyAdmin, createHotel);
 router.put("/:id", verifyAdmin, updateHotel);
 router.delete("/:id", verifyAdmin, deleteHotel);

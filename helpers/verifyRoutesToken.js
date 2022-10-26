@@ -15,9 +15,12 @@ export const verifyToken = (req, res, next) => {
 };
 
 export const verifyUser = (req, res, next) => {
-  verifyToken(req, res, next, () => {
+  console.log("verify user called");
+  verifyToken(req, res, () => {
+    console.log("line 20");
     if (req.user.id === req.params.id || req.user.isAdmin) {
       next();
+      console.log("req.user.id === req.params.id || req.user.isAdmin");
     } else {
       return next(createError(403, "You are not authorized!"));
     }
@@ -27,7 +30,7 @@ export const verifyUser = (req, res, next) => {
 export const verifyAdmin = (req, res, next) => {
   console.log("verify admin function called");
   verifyToken(req, res, () => {
-    if (req.user.isAdmin) {
+    if (req.user?.isAdmin) {
       next();
     } else {
       return next(createError(403, "You are not the admin"));
