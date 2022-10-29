@@ -1,4 +1,5 @@
 import HotelModel from "../models/hotel.model.js";
+import RoomModel from "../models/room.model.js";
 
 export const get = (req, res) => {
   try {
@@ -53,5 +54,54 @@ export const getHotels = async (req, res, next) => {
   } catch (error) {
     next(error);
     res.status(400).json("cannot get hotels");
+  }
+};
+
+// export const getHotelRoom = async (req, res, next) => {
+//   try {
+//     console.log("line 62");
+//     const hotel = await HotelModel.findById(req.params.id);
+//     console.log("line 64", hotel);
+//     const roomList = await Promise.all(
+//       hotel.rooms.map((room) => {
+//         console.log(room);
+//         const l = RoomModel.findById(room);
+//         // console.log(l);
+//         return RoomModel.findById("635b78f9ffb019ba05b90024");
+//       })
+//     );
+//     console.log("line 71");
+
+//     res.status(200).json(roomList);
+//   } catch (error) {
+//     res.status(400).json("error with getting rooms");
+//   }
+// };
+export const getHotelRooms = async (req, res, next) => {
+  const hotelId = req.params.id;
+  console.log(hotelId);
+
+  try {
+    const hotel = await HotelModel.findById(hotelId);
+    const list = await Promise.all(
+      hotel.rooms.map((room) => {
+        console.log(room);
+        if (room !== "") {
+          return RoomModel.findById(room);
+        } else {
+          res.status(400).json("there is no rooms");
+        }
+      })
+    );
+    res.status(200).json(list);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteAllRooms = async (req, res, next) => {
+  try {
+  } catch (error) {
+    next(er);
   }
 };

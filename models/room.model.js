@@ -1,6 +1,46 @@
 import mongoose from "mongoose";
-import HotelModel from "./hotel.model";
 
-const roomShcema = mongoose.Schema({
-    
-})
+const roomShcema = mongoose.Schema(
+  {
+    info: {
+      images: {
+        type: [String],
+        required: true,
+      },
+      desc: {
+        type: [String],
+        required: true,
+      },
+    },
+    isHourlyAvailable: {
+      type: Boolean,
+    },
+    hourlyPrice: {
+      type: Number,
+    },
+    recipie: {
+      type: [String],
+    },
+    view: {
+      type: [String],
+    },
+    roomFacilities: {
+      type: [String],
+    },
+    roomNumbers: [
+      {
+        number: Number,
+        unavailableDates: {
+          type: [Date],
+        },
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const RoomModel = mongoose.model("Room", roomShcema);
+
+export default RoomModel;
