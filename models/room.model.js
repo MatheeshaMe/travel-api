@@ -2,16 +2,15 @@ import mongoose from "mongoose";
 
 const roomShcema = mongoose.Schema(
   {
-    info: {
-      images: {
-        type: [String],
-        required: true,
-      },
-      desc: {
-        type: [String],
-        required: true,
-      },
+    images: {
+      type: [String],
+      required: true,
     },
+    desc: {
+      type: [String],
+      required: true,
+    },
+
     isHourlyAvailable: {
       type: Boolean,
     },
